@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAMAO CLUB // CANCEL BOOKING</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #030303;
+      --surface: #0a0a0c;
+      --border: rgba(255,255,255,0.08);
+      --text: #F0F0E8;
+      --text-dim: rgba(255,255,255,0.4);
+      --text-muted: rgba(255,255,255,0.2);
+      --red: #D71921;
+      --red-glow: rgba(215,25,33,0.4);
+      --glass: rgba(10,10,12,0.6);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Dot matrix background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(#222 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Centered layout */
+    .page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Card */
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      padding: 48px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Red top-line accent */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      opacity: 0.4;
+    }
+
+    .card h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+      text-shadow: 0 0 10px rgba(240,240,232,0.4);
+    }
+
+    .card .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--red);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      text-shadow: 0 0 12px var(--red-glow);
+    }
+
+    /* Loading state */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--border);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 40px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.2em;
+    }
+
+    /* Booking details list */
+    .booking-details {
+      text-align: left;
+      margin: 24px 0;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .detail-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text);
+      text-align: right;
+      margin-left: 16px;
+      word-break: break-word;
+    }
+
+    .detail-value.ref {
+      color: var(--red);
+      font-weight: 500;
+    }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      padding: 4px 10px;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+
+    .status-badge.confirmed {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .status-badge.cancelled {
+      color: var(--red);
+      background: rgba(215,25,33,0.1);
+      border: 1px solid rgba(215,25,33,0.3);
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    /* Cancel button */
+    .btn-cancel {
+      width: 100%;
+      padding: 14px;
+      background: rgba(215,25,33,0.08);
+      border: 1px solid rgba(215,25,33,0.3);
+      color: var(--red);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-cancel:hover {
+      background: rgba(215,25,33,0.15);
+      border-color: var(--red);
+      box-shadow: 0 0 20px var(--red-glow);
+    }
+
+    .btn-cancel:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-cancel:disabled:hover {
+      background: rgba(215,25,33,0.08);
+      border-color: rgba(215,25,33,0.3);
+      box-shadow: none;
+    }
+
+    /* Messages */
+    .message {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      padding: 20px 0;
+    }
+
+    .message.error {
+      color: var(--red);
+    }
+
+    .message.success {
+      color: var(--text);
+    }
+
+    .message.muted {
+      color: var(--text-dim);
+    }
+
+    .message-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* Footer text */
+    .card-footer {
+      margin-top: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+    <div class="card">
+      <h1>Mamao Club</h1>
+      <div class="subtitle">SYS.CANCEL</div>
+
+      <!-- State: No token provided -->
+      <div id="stateNoToken" class="hidden">
+        <div class="message error">
+          INVALID_LINK — NO TOKEN PROVIDED
+        </div>
+        <div class="card-footer">
+          THIS LINK IS NOT VALID. PLEASE CHECK YOUR EMAIL FOR THE CORRECT CANCELLATION LINK.
+        </div>
+      </div>
+
+      <!-- State: Loading booking info -->
+      <div id="stateLoading" class="hidden">
+        <div class="loading-state">
+          <span class="spinner"></span>
+          <span>LOADING BOOKING...</span>
+        </div>
+      </div>
+
+      <!-- State: Fetch error -->
+      <div id="stateError" class="hidden">
+        <div class="message error" id="errorMessage">
+          ERROR — COULD NOT LOAD BOOKING
+        </div>
+        <div class="card-footer">
+          THE CANCELLATION LINK MAY HAVE EXPIRED OR IS INVALID. PLEASE CONTACT US FOR ASSISTANCE.
+        </div>
+      </div>
+
+      <!-- State: Booking found (confirmed or already cancelled) -->
+      <div id="stateBooking" class="hidden">
+        <div class="booking-details" id="bookingDetails">
+          <div class="detail-row">
+            <span class="detail-label">REF</span>
+            <span class="detail-value ref" id="bookingRef">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">NAME</span>
+            <span class="detail-value" id="bookingName">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">DATE</span>
+            <span class="detail-value" id="bookingDate">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">TIME</span>
+            <span class="detail-value" id="bookingTime">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">GUESTS</span>
+            <span class="detail-value" id="bookingGuests">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">STATUS</span>
+            <span class="detail-value" id="bookingStatus">—</span>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Sub-state: Already cancelled -->
+        <div id="alreadyCancelled" class="hidden">
+          <div class="message muted">
+            THIS BOOKING HAS ALREADY BEEN CANCELLED.
+          </div>
+        </div>
+
+        <!-- Sub-state: Confirm cancellation button -->
+        <div id="cancelAction" class="hidden">
+          <button class="btn-cancel" id="btnCancel" onclick="confirmCancel()">
+            CONFIRM CANCELLATION
+          </button>
+        </div>
+
+        <!-- Sub-state: Cancellation in progress -->
+        <div id="cancelLoading" class="hidden">
+          <div class="loading-state">
+            <span class="spinner"></span>
+            <span>CANCELLING...</span>
+          </div>
+        </div>
+
+        <!-- Sub-state: Cancellation success -->
+        <div id="cancelSuccess" class="hidden">
+          <div class="message success">
+            BOOKING CANCELLED
+          </div>
+          <div class="card-footer">
+            YOUR BOOKING HAS BEEN SUCCESSFULLY CANCELLED. NO FURTHER ACTION IS REQUIRED.
+          </div>
+        </div>
+
+        <!-- Sub-state: Cancellation error -->
+        <div id="cancelError" class="hidden">
+          <div class="message error" id="cancelErrorMessage">
+            CANCELLATION_FAILED — PLEASE TRY AGAIN
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /* ================================================================
+       MAMAO CLUB — BOOKING CANCELLATION (SELF-SERVICE)
+       Token-based auth, no login required. Pure vanilla JS.
+    ================================================================ */
+
+    let token = null;
+
+    /**
+     * Extract token from URL query parameters and initiate the flow.
+     */
+    function init() {
+      const params = new URLSearchParams(window.location.search);
+      token = params.get('token');
+
+      if (!token) {
+        show('stateNoToken');
+        return;
+      }
+
+      loadBooking();
+    }
+
+    /**
+     * Fetch booking info from the cancellation API.
+     */
+    async function loadBooking() {
+      show('stateLoading');
+
+      try {
+        const res = await fetch('/api/cancel?token=' + encodeURIComponent(token));
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          const msg = data.error || ('HTTP_' + res.status + ' — COULD NOT LOAD BOOKING');
+          document.getElementById('errorMessage').textContent = msg;
+          show('stateError');
+          return;
+        }
+
+        const data = await res.json();
+        displayBooking(data.booking);
+      } catch (err) {
+        console.error('Failed to load booking:', err);
+        document.getElementById('errorMessage').textContent =
+          'CONNECTION_FAILED — COULD NOT REACH SERVER';
+        show('stateError');
+      }
+    }
+
+    /**
+     * Populate booking details and determine which action to show.
+     */
+    function displayBooking(booking) {
+      document.getElementById('bookingRef').textContent = booking.ref || '—';
+      document.getElementById('bookingName').textContent = booking.name || '—';
+      document.getElementById('bookingDate').textContent = booking.date || '—';
+      document.getElementById('bookingTime').textContent = booking.time || '—';
+      document.getElementById('bookingGuests').textContent = booking.guests || '—';
+
+      const status = (booking.status || '').toLowerCase();
+      const statusEl = document.getElementById('bookingStatus');
+
+      if (status === 'cancelled') {
+        statusEl.innerHTML = '<span class="status-badge cancelled">CANCELLED</span>';
+        document.getElementById('alreadyCancelled').classList.remove('hidden');
+        document.getElementById('cancelAction').classList.add('hidden');
+      } else {
+        statusEl.innerHTML = '<span class="status-badge confirmed">CONFIRMED</span>';
+        document.getElementById('alreadyCancelled').classList.add('hidden');
+        document.getElementById('cancelAction').classList.remove('hidden');
+      }
+
+      show('stateBooking');
+    }
+
+    /**
+     * POST cancellation request to the API.
+     */
+    async function confirmCancel() {
+      // Hide action button, show loading
+      document.getElementById('cancelAction').classList.add('hidden');
+      document.getElementById('cancelError').classList.add('hidden');
+      document.getElementById('cancelLoading').classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/cancel?token=' + encodeURIComponent(token), {
+          method: 'POST',
+        });
+
+        document.getElementById('cancelLoading').classList.add('hidden');
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          const msg = data.error || ('CANCELLATION_FAILED — HTTP_' + res.status);
+          document.getElementById('cancelErrorMessage').textContent = msg;
+          document.getElementById('cancelError').classList.remove('hidden');
+          // Re-show the button so user can retry
+          document.getElementById('cancelAction').classList.remove('hidden');
+          return;
+        }
+
+        // Success: update status display to cancelled
+        const statusEl = document.getElementById('bookingStatus');
+        statusEl.innerHTML = '<span class="status-badge cancelled">CANCELLED</span>';
+
+        document.getElementById('cancelSuccess').classList.remove('hidden');
+      } catch (err) {
+        console.error('Cancellation failed:', err);
+        document.getElementById('cancelLoading').classList.add('hidden');
+        document.getElementById('cancelErrorMessage').textContent =
+          'CONNECTION_FAILED — PLEASE TRY AGAIN';
+        document.getElementById('cancelError').classList.remove('hidden');
+        // Re-show the button so user can retry
+        document.getElementById('cancelAction').classList.remove('hidden');
+      }
+    }
+
+    /**
+     * Show a single top-level state, hiding all others.
+     */
+    function show(id) {
+      const states = ['stateNoToken', 'stateLoading', 'stateError', 'stateBooking'];
+      states.forEach(s => {
+        document.getElementById(s).classList.toggle('hidden', s !== id);
+      });
+    }
+
+    /**
+     * HTML-escape utility (not needed for textContent, but kept for safety).
+     */
+    function esc(str) {
+      if (!str) return '';
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    // Initialize on page load
+    init();
+  </script>
+
+</body>
+</html>

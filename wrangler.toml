@@ -1,0 +1,8 @@
+name = "mamao-book"
+compatibility_date = "2024-12-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mamao-bookings"
+database_id = "361ccdcc-9f63-4265-8ce6-6afec86dbcfa"
+migrations_dir = "migrations"

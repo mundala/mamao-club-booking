@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAMAO ADMIN // SYS.FLOORPLAN</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #030303;
+      --surface: #0a0a0c;
+      --border: rgba(255,255,255,0.08);
+      --text: #F0F0E8;
+      --text-dim: rgba(255,255,255,0.4);
+      --text-muted: rgba(255,255,255,0.2);
+      --red: #D71921;
+      --red-glow: rgba(215,25,33,0.4);
+      --glass: rgba(10,10,12,0.6);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Dot matrix background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(#222 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ---- LOGIN SCREEN ---- */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      padding: 48px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+
+    .login-card h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+      text-shadow: 0 0 10px rgba(240,240,232,0.4);
+    }
+
+    .login-card .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--red);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      text-shadow: 0 0 12px var(--red-glow);
+    }
+
+    .login-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      padding: 12px 0;
+      text-align: center;
+      letter-spacing: 0.2em;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .login-input:focus {
+      border-bottom-color: var(--red);
+    }
+
+    .login-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .login-btn {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .login-btn:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .login-error {
+      color: var(--red);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      margin-top: 16px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .login-error.visible { opacity: 1; }
+
+    /* ---- MAIN APP ---- */
+    .app {
+      position: relative;
+      z-index: 1;
+      padding: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .admin-header h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 300;
+      font-style: italic;
+      text-shadow: 0 0 10px rgba(240,240,232,0.4);
+    }
+
+    .admin-header .sys-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--red);
+      letter-spacing: 0.4em;
+      text-shadow: 0 0 12px var(--red-glow);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .btn-ghost.danger:hover {
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    .btn-ghost.accent {
+      border-color: rgba(215,25,33,0.3);
+      color: var(--red);
+    }
+
+    .btn-ghost.accent:hover {
+      border-color: var(--red);
+      box-shadow: 0 0 12px var(--red-glow);
+    }
+
+    /* ---- LAYOUT: Canvas + Detail Panel ---- */
+    .floorplan-layout {
+      display: flex;
+      gap: 20px;
+      min-height: 780px;
+    }
+
+    .canvas-wrapper {
+      flex: 1;
+      min-width: 0;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .canvas-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      opacity: 0.4;
+    }
+
+    .canvas-inner {
+      position: relative;
+      width: 900px;
+      height: 780px;
+      margin: 0 auto;
+      user-select: none;
+      touch-action: none;
+    }
+
+    /* ---- TABLE ELEMENTS ---- */
+    .table-el {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      z-index: 10;
+    }
+
+    .table-el:active {
+      cursor: grabbing;
+    }
+
+    .table-el.dragging {
+      z-index: 100;
+      box-shadow: 0 0 24px rgba(255,255,255,0.15);
+    }
+
+    /* Square table */
+    .table-el.shape-square {
+      width: 55px;
+      height: 55px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* Round table (standard) */
+    .table-el.shape-round {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* Round small table */
+    .table-el.shape-round-sm {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* Stage table */
+    .table-el.shape-stage {
+      width: 120px;
+      height: 50px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* Table label */
+    .table-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .table-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: rgba(255,255,255,0.3);
+      line-height: 1;
+      margin-top: 2px;
+      pointer-events: none;
+    }
+
+    /* Status: available */
+    .table-el.status-available {
+      border-color: rgba(255,255,255,0.10);
+    }
+
+    .table-el.status-available .table-num {
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* Status: booked */
+    .table-el.status-booked {
+      border-color: rgba(215,25,33,0.50);
+      box-shadow: 0 0 12px rgba(215,25,33,0.15);
+    }
+
+    .table-el.status-booked .table-num {
+      color: var(--red);
+    }
+
+    .table-el.status-booked .table-time {
+      color: rgba(215,25,33,0.6);
+    }
+
+    /* Status: selected */
+    .table-el.selected {
+      border-color: rgba(255,255,255,0.40);
+      box-shadow: 0 0 16px rgba(255,255,255,0.12);
+    }
+
+    .table-el.selected .table-num {
+      color: var(--text);
+    }
+
+    /* ---- LANDMARK ZONES ---- */
+    .landmark {
+      position: absolute;
+      pointer-events: none;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .landmark-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.12);
+    }
+
+    .landmark-zone {
+      border: 1px dashed rgba(255,255,255,0.06);
+      border-radius: 4px;
+    }
+
+    /* ---- DETAIL PANEL ---- */
+    .detail-panel {
+      width: 320px;
+      flex-shrink: 0;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      padding: 24px;
+      position: relative;
+      overflow-y: auto;
+      max-height: 780px;
+    }
+
+    .detail-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      opacity: 0.4;
+    }
+
+    .detail-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .detail-empty {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .detail-field {
+      margin-bottom: 16px;
+    }
+
+    .detail-field label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .detail-field .value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .detail-field .value.big {
+      font-family: 'Inter', sans-serif;
+      font-size: 36px;
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    .detail-field .value.red {
+      color: var(--red);
+    }
+
+    .detail-input {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .detail-input:focus {
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .detail-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    textarea.detail-input {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .status-badge.available {
+      color: var(--text-dim);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .status-badge.booked {
+      color: var(--red);
+      background: rgba(215,25,33,0.1);
+      border: 1px solid rgba(215,25,33,0.3);
+    }
+
+    .detail-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 16px 0;
+    }
+
+    .btn-toggle-status {
+      width: 100%;
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-dim);
+    }
+
+    .btn-toggle-status:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.25);
+      color: var(--text);
+    }
+
+    .btn-toggle-status.mark-booked:hover {
+      border-color: rgba(215,25,33,0.5);
+      color: var(--red);
+      box-shadow: 0 0 12px var(--red-glow);
+    }
+
+    .btn-toggle-status.mark-available:hover {
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* ---- FOOTER ---- */
+    .admin-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-info {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--border);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .hidden { display: none !important; }
+
+    /* Responsive: stack on smaller screens */
+    @media (max-width: 1100px) {
+      .floorplan-layout {
+        flex-direction: column;
+      }
+      .canvas-wrapper {
+        overflow-x: auto;
+      }
+      .detail-panel {
+        width: 100%;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <h1>Mamao Club</h1>
+      <div class="subtitle">SYS.FLOORPLAN</div>
+      <form id="loginForm">
+        <input
+          type="password"
+          id="passwordInput"
+          class="login-input"
+          placeholder="ACCESS_KEY"
+          autocomplete="current-password"
+        />
+        <button type="submit" class="login-btn">AUTHENTICATE</button>
+      </form>
+      <div id="loginError" class="login-error">ACCESS_DENIED — INVALID KEY</div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="mainApp" class="hidden">
+    <div class="app">
+
+      <!-- Header -->
+      <div class="admin-header">
+        <div>
+          <h1>Mamao Club</h1>
+          <div class="sys-tag">SYS.FLOORPLAN // TABLE MANAGEMENT</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn-ghost accent" onclick="saveLayout()">SAVE LAYOUT</button>
+          <button class="btn-ghost" onclick="resetLayout()">RESET LAYOUT</button>
+          <a href="/admin" class="btn-ghost" style="text-decoration:none;">BACK TO ADMIN</a>
+          <button class="btn-ghost danger" onclick="logout()">LOGOUT</button>
+        </div>
+      </div>
+
+      <!-- Floor Plan + Detail Panel -->
+      <div class="floorplan-layout">
+
+        <!-- Canvas -->
+        <div class="canvas-wrapper">
+          <div class="canvas-inner" id="canvasInner">
+            <!-- Landmark zones rendered by JS -->
+            <!-- Table elements rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Detail Panel -->
+        <div class="detail-panel" id="detailPanel">
+          <div class="detail-title">TABLE DETAIL</div>
+          <div id="detailEmpty" class="detail-empty">SELECT A TABLE<br>TO VIEW DETAILS</div>
+          <div id="detailContent" class="hidden">
+            <div class="detail-field">
+              <label>TABLE</label>
+              <div class="value big" id="detailTableNum">—</div>
+            </div>
+            <div class="detail-field">
+              <label>SHAPE</label>
+              <div class="value" id="detailShape">—</div>
+            </div>
+            <div class="detail-field">
+              <label>STATUS</label>
+              <div id="detailStatusBadge"></div>
+            </div>
+            <hr class="detail-divider">
+            <div class="detail-field">
+              <label>BOOKING TIME</label>
+              <input type="time" class="detail-input" id="detailTime" min="21:00" max="23:00">
+            </div>
+            <div class="detail-field">
+              <label>NOTES</label>
+              <textarea class="detail-input" id="detailNotes" placeholder="Add notes..." rows="3"></textarea>
+            </div>
+            <hr class="detail-divider">
+            <button class="btn-toggle-status" id="btnToggleStatus" onclick="toggleStatus()">
+              MARK BOOKED
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="admin-footer">
+        <div class="footer-info" id="footerInfo">TABLES: 0 | LAST SAVED: —</div>
+        <div class="footer-info" id="footerTimestamp"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /* ================================================================
+       MAMAO CLUB — FLOOR PLAN MANAGER
+       Pure client-side, no frameworks. Persists to localStorage.
+    ================================================================ */
+
+    const API_BASE = '/api/admin';
+    const LS_POSITIONS = 'mamao_floorplan_positions';
+    const LS_STATES = 'mamao_floorplan_states';
+
+    /* ---- DEFAULT TABLE DATA ---- */
+    const DEFAULT_TABLES = [
+      // Stage
+      { id: '4',  x: 370, y: 20,  shape: 'stage' },
+      { id: '5',  x: 510, y: 20,  shape: 'stage' },
+      // Front row (near stage)
+      { id: '1',  x: 40,  y: 60,  shape: 'square' },
+      { id: '2',  x: 170, y: 60,  shape: 'square' },
+      { id: '3',  x: 300, y: 60,  shape: 'square' },
+      // Row 2
+      { id: '11', x: 40,  y: 140, shape: 'square' },
+      { id: '21', x: 170, y: 140, shape: 'square' },
+      { id: '31', x: 300, y: 140, shape: 'square' },
+      // Row 3
+      { id: '12', x: 40,  y: 220, shape: 'square' },
+      { id: '22', x: 170, y: 220, shape: 'square' },
+      { id: '32', x: 300, y: 220, shape: 'square' },
+      // Row 4
+      { id: '13', x: 40,  y: 300, shape: 'square' },
+      { id: '23', x: 170, y: 300, shape: 'square' },
+      { id: '33', x: 300, y: 300, shape: 'square' },
+      // Row 5
+      { id: '14', x: 40,  y: 380, shape: 'square' },
+      { id: '24', x: 170, y: 380, shape: 'square' },
+      { id: '34', x: 300, y: 380, shape: 'square' },
+      // Extra
+      { id: '35', x: 300, y: 460, shape: 'square' },
+      // Right column — small rounds
+      { id: '6',  x: 680, y: 80,  shape: 'round-sm' },
+      { id: '7',  x: 650, y: 130, shape: 'round-sm' },
+      { id: '8',  x: 620, y: 170, shape: 'round-sm' },
+      // Right column — squares
+      { id: '9',  x: 680, y: 220, shape: 'square' },
+      { id: '10', x: 680, y: 300, shape: 'square' },
+      // Right mid
+      { id: '40', x: 680, y: 390, shape: 'square' },
+      // Right rounds
+      { id: '41', x: 700, y: 460, shape: 'round' },
+      { id: '42', x: 700, y: 530, shape: 'round' },
+      // Near toilets
+      { id: '43', x: 700, y: 610, shape: 'square' },
+      { id: '44', x: 700, y: 680, shape: 'square' },
+      // Bottom left rounds
+      { id: '81', x: 40,  y: 560, shape: 'round' },
+      { id: '91', x: 170, y: 560, shape: 'round' },
+      { id: '82', x: 40,  y: 640, shape: 'round' },
+      { id: '92', x: 170, y: 640, shape: 'round' },
+    ];
+
+    /* Landmark overlay zones (non-draggable, decorative) */
+    const LANDMARKS = [
+      { label: 'STAGE',    x: 370, y: 0,   w: 260, h: 16 },
+      { label: 'BAR',      x: 160, y: 500, w: 500, h: 30 },
+      { label: 'ENTRANCE', x: 760, y: 330, w: 90,  h: 70 },
+      { label: 'MEN WC',   x: 770, y: 610, w: 80,  h: 40 },
+      { label: 'WOMEN WC', x: 770, y: 680, w: 80,  h: 40 },
+    ];
+
+    /* ---- STATE ---- */
+    let tables = [];       // { id, x, y, shape, status, time, notes }
+    let selectedId = null;
+    let dragState = null;  // { id, offsetX, offsetY }
+
+    /* ---- AUTH ---- */
+    function getPassword() {
+      return sessionStorage.getItem('mamao_admin_pw') || '';
+    }
+
+    function headers() {
+      return {
+        'Content-Type': 'application/json',
+        'X-Admin-Password': getPassword(),
+      };
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pw = document.getElementById('passwordInput').value;
+      if (!pw) return;
+
+      sessionStorage.setItem('mamao_admin_pw', pw);
+
+      try {
+        const res = await fetch(API_BASE + '/stats', { headers: headers() });
+        if (res.status === 401) {
+          sessionStorage.removeItem('mamao_admin_pw');
+          document.getElementById('loginError').classList.add('visible');
+          return;
+        }
+        showApp();
+      } catch {
+        document.getElementById('loginError').textContent = 'CONNECTION_FAILED';
+        document.getElementById('loginError').classList.add('visible');
+      }
+    });
+
+    function showApp() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainApp').classList.remove('hidden');
+      initFloorPlan();
+    }
+
+    function logout() {
+      sessionStorage.removeItem('mamao_admin_pw');
+      document.getElementById('mainApp').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('passwordInput').value = '';
+      document.getElementById('loginError').classList.remove('visible');
+    }
+
+    /* Auto-login if session exists */
+    if (getPassword()) {
+      fetch(API_BASE + '/stats', { headers: headers() })
+        .then(res => {
+          if (res.ok) showApp();
+          else sessionStorage.removeItem('mamao_admin_pw');
+        })
+        .catch(() => {});
+    }
+
+    /* ---- INIT ---- */
+    function initFloorPlan() {
+      loadTableData();
+      renderLandmarks();
+      renderTables();
+      updateFooter();
+    }
+
+    /* ---- DATA PERSISTENCE ---- */
+    function loadTableData() {
+      // Load positions from localStorage, fall back to defaults
+      const savedPositions = loadJSON(LS_POSITIONS);
+      const savedStates = loadJSON(LS_STATES);
+
+      tables = DEFAULT_TABLES.map(def => {
+        const pos = savedPositions ? savedPositions.find(p => p.id === def.id) : null;
+        const state = savedStates ? savedStates.find(s => s.id === def.id) : null;
+        return {
+          id: def.id,
+          x: pos ? pos.x : def.x,
+          y: pos ? pos.y : def.y,
+          shape: def.shape,
+          status: state ? state.status : 'available',
+          time: state ? (state.time || '') : '',
+          notes: state ? (state.notes || '') : '',
+        };
+      });
+    }
+
+    function saveLayout() {
+      // Save positions
+      const positions = tables.map(t => ({ id: t.id, x: t.x, y: t.y }));
+      localStorage.setItem(LS_POSITIONS, JSON.stringify(positions));
+
+      // Save states
+      const states = tables.map(t => ({
+        id: t.id,
+        status: t.status,
+        time: t.time,
+        notes: t.notes,
+      }));
+      localStorage.setItem(LS_STATES, JSON.stringify(states));
+
+      updateFooter();
+    }
+
+    function resetLayout() {
+      if (!confirm('Reset all table positions to default? Table states (bookings) will be preserved.')) return;
+      localStorage.removeItem(LS_POSITIONS);
+      // Restore default positions, keep states
+      tables.forEach(t => {
+        const def = DEFAULT_TABLES.find(d => d.id === t.id);
+        if (def) {
+          t.x = def.x;
+          t.y = def.y;
+        }
+      });
+      renderTables();
+      if (selectedId) updateDetailPanel();
+    }
+
+    function loadJSON(key) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    /* ---- RENDER LANDMARKS ---- */
+    function renderLandmarks() {
+      const canvas = document.getElementById('canvasInner');
+
+      LANDMARKS.forEach(lm => {
+        const el = document.createElement('div');
+        el.className = 'landmark landmark-zone';
+        el.style.left = lm.x + 'px';
+        el.style.top = lm.y + 'px';
+        el.style.width = lm.w + 'px';
+        el.style.height = lm.h + 'px';
+
+        const lbl = document.createElement('span');
+        lbl.className = 'landmark-label';
+        lbl.textContent = lm.label;
+        el.appendChild(lbl);
+
+        canvas.appendChild(el);
+      });
+    }
+
+    /* ---- RENDER TABLES ---- */
+    function renderTables() {
+      const canvas = document.getElementById('canvasInner');
+
+      // Remove existing table elements (keep landmarks)
+      canvas.querySelectorAll('.table-el').forEach(el => el.remove());
+
+      tables.forEach(t => {
+        const el = document.createElement('div');
+        el.className = `table-el shape-${t.shape} status-${t.status}`;
+        el.dataset.id = t.id;
+        el.style.left = t.x + 'px';
+        el.style.top = t.y + 'px';
+
+        if (t.id === selectedId) {
+          el.classList.add('selected');
+        }
+
+        // Table number
+        const num = document.createElement('span');
+        num.className = 'table-num';
+        num.textContent = t.id;
+        el.appendChild(num);
+
+        // Booking time (only if booked and time is set)
+        if (t.status === 'booked' && t.time) {
+          const tm = document.createElement('span');
+          tm.className = 'table-time';
+          tm.textContent = t.time;
+          el.appendChild(tm);
+        }
+
+        // Pointer events for drag and click
+        el.addEventListener('pointerdown', onPointerDown);
+
+        canvas.appendChild(el);
+      });
+    }
+
+    /* ---- DRAG & DROP ---- */
+    function onPointerDown(e) {
+      // Only handle primary button
+      if (e.button !== 0) return;
+      e.preventDefault();
+
+      const el = e.currentTarget;
+      const id = el.dataset.id;
+      const table = tables.find(t => t.id === id);
+      if (!table) return;
+
+      const canvasRect = document.getElementById('canvasInner').getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+
+      dragState = {
+        id: id,
+        offsetX: e.clientX - elRect.left,
+        offsetY: e.clientY - elRect.top,
+        startX: e.clientX,
+        startY: e.clientY,
+        moved: false,
+      };
+
+      el.classList.add('dragging');
+      el.setPointerCapture(e.pointerId);
+
+      const onMove = (ev) => {
+        const dx = ev.clientX - dragState.startX;
+        const dy = ev.clientY - dragState.startY;
+
+        // Require at least 4px movement to count as drag (prevents click jitter)
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+          dragState.moved = true;
+        }
+
+        if (!dragState.moved) return;
+
+        const canvasRect = document.getElementById('canvasInner').getBoundingClientRect();
+        let newX = ev.clientX - canvasRect.left - dragState.offsetX;
+        let newY = ev.clientY - canvasRect.top - dragState.offsetY;
+
+        // Snap to 10px grid
+        newX = Math.round(newX / 10) * 10;
+        newY = Math.round(newY / 10) * 10;
+
+        // Clamp within canvas bounds
+        newX = Math.max(0, Math.min(newX, 900 - el.offsetWidth));
+        newY = Math.max(0, Math.min(newY, 780 - el.offsetHeight));
+
+        el.style.left = newX + 'px';
+        el.style.top = newY + 'px';
+
+        table.x = newX;
+        table.y = newY;
+      };
+
+      const onUp = (ev) => {
+        el.classList.remove('dragging');
+        el.releasePointerCapture(ev.pointerId);
+        el.removeEventListener('pointermove', onMove);
+        el.removeEventListener('pointerup', onUp);
+
+        // If not a drag, treat as click (select table)
+        if (!dragState.moved) {
+          selectTable(id);
+        }
+
+        dragState = null;
+      };
+
+      el.addEventListener('pointermove', onMove);
+      el.addEventListener('pointerup', onUp);
+    }
+
+    /* ---- TABLE SELECTION ---- */
+    function selectTable(id) {
+      // Deselect previous
+      const prev = document.querySelector('.table-el.selected');
+      if (prev) prev.classList.remove('selected');
+
+      // If clicking the same table, deselect
+      if (selectedId === id) {
+        selectedId = null;
+        showDetailEmpty();
+        return;
+      }
+
+      selectedId = id;
+
+      const el = document.querySelector(`.table-el[data-id="${id}"]`);
+      if (el) el.classList.add('selected');
+
+      updateDetailPanel();
+    }
+
+    function showDetailEmpty() {
+      document.getElementById('detailEmpty').classList.remove('hidden');
+      document.getElementById('detailContent').classList.add('hidden');
+    }
+
+    function updateDetailPanel() {
+      if (!selectedId) {
+        showDetailEmpty();
+        return;
+      }
+
+      const table = tables.find(t => t.id === selectedId);
+      if (!table) {
+        showDetailEmpty();
+        return;
+      }
+
+      document.getElementById('detailEmpty').classList.add('hidden');
+      document.getElementById('detailContent').classList.remove('hidden');
+
+      // Table number
+      document.getElementById('detailTableNum').textContent = table.id;
+
+      // Shape
+      const shapeLabels = {
+        'square': 'SQUARE',
+        'round': 'ROUND',
+        'round-sm': 'ROUND (SMALL)',
+        'stage': 'STAGE',
+      };
+      document.getElementById('detailShape').textContent = shapeLabels[table.shape] || table.shape.toUpperCase();
+
+      // Status badge
+      const badgeEl = document.getElementById('detailStatusBadge');
+      if (table.status === 'booked') {
+        badgeEl.innerHTML = '<span class="status-badge booked">BOOKED</span>';
+      } else {
+        badgeEl.innerHTML = '<span class="status-badge available">AVAILABLE</span>';
+      }
+
+      // Time input
+      const timeInput = document.getElementById('detailTime');
+      timeInput.value = table.time || '';
+      timeInput.onchange = () => {
+        table.time = timeInput.value;
+        // Re-render only this table
+        refreshTableEl(table);
+      };
+
+      // Notes
+      const notesInput = document.getElementById('detailNotes');
+      notesInput.value = table.notes || '';
+      notesInput.oninput = () => {
+        table.notes = notesInput.value;
+      };
+
+      // Toggle button
+      const btn = document.getElementById('btnToggleStatus');
+      if (table.status === 'booked') {
+        btn.textContent = 'MARK AVAILABLE';
+        btn.className = 'btn-toggle-status mark-available';
+      } else {
+        btn.textContent = 'MARK BOOKED';
+        btn.className = 'btn-toggle-status mark-booked';
+      }
+    }
+
+    function toggleStatus() {
+      if (!selectedId) return;
+      const table = tables.find(t => t.id === selectedId);
+      if (!table) return;
+
+      if (table.status === 'booked') {
+        table.status = 'available';
+        table.time = '';
+      } else {
+        table.status = 'booked';
+        // Default to 21:00 if no time set
+        if (!table.time) table.time = '21:00';
+      }
+
+      refreshTableEl(table);
+      updateDetailPanel();
+    }
+
+    /* Refresh a single table element without full re-render */
+    function refreshTableEl(table) {
+      const el = document.querySelector(`.table-el[data-id="${table.id}"]`);
+      if (!el) return;
+
+      // Update status class
+      el.className = `table-el shape-${table.shape} status-${table.status}`;
+      if (table.id === selectedId) el.classList.add('selected');
+
+      // Rebuild inner content
+      el.innerHTML = '';
+
+      const num = document.createElement('span');
+      num.className = 'table-num';
+      num.textContent = table.id;
+      el.appendChild(num);
+
+      if (table.status === 'booked' && table.time) {
+        const tm = document.createElement('span');
+        tm.className = 'table-time';
+        tm.textContent = table.time;
+        el.appendChild(tm);
+      }
+    }
+
+    /* ---- FOOTER ---- */
+    function updateFooter() {
+      const total = tables.length;
+      const booked = tables.filter(t => t.status === 'booked').length;
+
+      // Check if layout was ever saved
+      const savedPos = localStorage.getItem(LS_POSITIONS);
+      let lastSaved = '—';
+      if (savedPos) {
+        // Use current time as "just saved" indicator
+        lastSaved = new Date().toLocaleTimeString('en-US', { hour12: false });
+      }
+
+      document.getElementById('footerInfo').textContent =
+        `TABLES: ${total} | BOOKED: ${booked} | LAST SAVED: ${lastSaved}`;
+    }
+
+    /* ---- CANVAS CLICK DESELECT ---- */
+    document.addEventListener('click', (e) => {
+      // If clicking on the canvas background (not a table), deselect
+      const canvas = document.getElementById('canvasInner');
+      if (!canvas) return;
+      if (e.target === canvas) {
+        if (selectedId) {
+          const prev = document.querySelector('.table-el.selected');
+          if (prev) prev.classList.remove('selected');
+          selectedId = null;
+          showDetailEmpty();
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

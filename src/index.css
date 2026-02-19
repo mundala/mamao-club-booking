@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* === Theme Configuration (Tailwind v4) === */
+@theme {
+  --color-off-black: #030303;
+  --color-warm-white: #F0F0E8;
+  --color-nothing-red: #D71921;
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+  --color-glass-surface: rgba(10, 10, 12, 0.4);
+
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: 'Kaisei Decol', serif;
+
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-glitch: glitch 1s linear infinite;
+
+  @keyframes glitch {
+    2%, 64% { transform: translate(2px,0) skew(0deg); }
+    4%, 60% { transform: translate(-2px,0) skew(0deg); }
+    62% { transform: translate(0,0) skew(5deg); }
+  }
+}
+
+/* === Local Font Faces === */
+
+/* Inter — Variable-weight Latin subset */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* JetBrains Mono — Variable-weight Latin subset */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Kaisei Decol — Regular */
+@font-face {
+  font-family: 'Kaisei Decol';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/kaisei-decol-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Kaisei Decol — Medium */
+@font-face {
+  font-family: 'Kaisei Decol';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/kaisei-decol-500-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Kaisei Decol — Bold */
+@font-face {
+  font-family: 'Kaisei Decol';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/kaisei-decol-700-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* === Custom Styles (moved from index.html) === */
+
+body {
+  background-color: #030303;
+  color: #F0F0E8;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Cinematic Text Bloom */
+.bloom-white {
+  text-shadow: 0 0 10px rgba(240, 240, 232, 0.4), 0 0 20px rgba(240, 240, 232, 0.2);
+}
+.bloom-red {
+  text-shadow: 0 0 12px rgba(215, 25, 33, 0.6), 0 0 25px rgba(215, 25, 33, 0.3);
+}
+
+/* Film Grain Animation */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -5%); }
+  20% { transform: translate(-10%, 5%); }
+  30% { transform: translate(5%, -10%); }
+  40% { transform: translate(-5%, 15%); }
+  50% { transform: translate(-10%, 5%); }
+  60% { transform: translate(15%, 0); }
+  70% { transform: translate(0, 10%); }
+  80% { transform: translate(-15%, 0); }
+  90% { transform: translate(10%, 5%); }
+}
+
+/* Dot Matrix Pattern */
+.dot-matrix-bg {
+  background-image: radial-gradient(#222 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Slow Zoom for Background Image */
+@keyframes slowZoom {
+  0% { transform: scale(1.0); }
+  100% { transform: scale(1.15); }
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
