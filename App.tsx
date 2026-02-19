@@ -455,13 +455,10 @@ const App: React.FC = () => {
                            'Birthday',
                            'Anniversary',
                            'Date Night',
-                           'Corporate',
                            'Graduation',
                            'Hen/Bucks',
                            'VIP Table',
                            'Cake Setup',
-                           'Dietary Needs',
-                           'Wheelchair Access',
                          ].map((tag) => {
                            const isActive = bookingData.notes.includes(tag);
                            return (
