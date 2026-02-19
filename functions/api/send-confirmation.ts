@@ -87,11 +87,20 @@ function buildEmailHtml(booking: BookingPayload): string {
 
               <!-- Cancellation Link -->
               ${booking.cancelToken ? `
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:20px;padding-top:15px;border-top:1px solid #222;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;padding-top:20px;border-top:1px solid #222;">
                 <tr>
-                  <td align="center" style="font-size:9px;color:#555;letter-spacing:1px;">
-                    NEED TO CANCEL?<br>
-                    <a href="https://book.mamaogang.com/cancel?token=${booking.cancelToken}" style="color:#D71921;text-decoration:none;letter-spacing:2px;font-size:10px;">CLICK HERE</a>
+                  <td align="center" style="padding-bottom:12px;">
+                    <span style="font-size:11px;font-weight:bold;color:#F5F5F5;letter-spacing:2px;">NEED TO CANCEL?</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center">
+                    <a href="https://book.mamaogang.com/cancel?token=${booking.cancelToken}" style="display:inline-block;padding:14px 32px;background:#D71921;color:#FFFFFF;font-family:'Courier New',Courier,monospace;font-size:13px;font-weight:bold;letter-spacing:3px;text-decoration:none;text-transform:uppercase;">CANCEL BOOKING</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-top:10px;">
+                    <span style="font-size:9px;color:#555;letter-spacing:1px;">One tap to cancel — no login required</span>
                   </td>
                 </tr>
               </table>

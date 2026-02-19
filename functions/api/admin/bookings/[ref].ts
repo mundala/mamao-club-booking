@@ -49,6 +49,20 @@ export const onRequestPatch: PagesFunction<Env> = async (context) => {
       }
     }
 
+    // Editable booking fields
+    const stringFields = ['name', 'email', 'phone', 'date', 'time', 'notes'] as const;
+    for (const field of stringFields) {
+      if (typeof body[field] === 'string') {
+        updates.push(`${field} = ?`);
+        values.push(body[field]);
+      }
+    }
+
+    if (typeof body.guests === 'number' && body.guests > 0) {
+      updates.push('guests = ?');
+      values.push(body.guests);
+    }
+
     if (updates.length === 0) {
       return new Response(
         JSON.stringify({ error: 'No valid fields to update' }),

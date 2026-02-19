@@ -424,7 +424,7 @@
     }
 
     /**
-     * Populate booking details and determine which action to show.
+     * Populate booking details and auto-cancel if still confirmed.
      */
     function displayBooking(booking) {
       document.getElementById('bookingRef').textContent = booking.ref || '—';
@@ -442,8 +442,9 @@
         document.getElementById('cancelAction').classList.add('hidden');
       } else {
         statusEl.innerHTML = '<span class="status-badge confirmed">CONFIRMED</span>';
-        document.getElementById('alreadyCancelled').classList.add('hidden');
-        document.getElementById('cancelAction').classList.remove('hidden');
+        document.getElementById('cancelAction').classList.add('hidden');
+        // Auto-cancel immediately — one-click experience
+        confirmCancel();
       }
 
       show('stateBooking');
