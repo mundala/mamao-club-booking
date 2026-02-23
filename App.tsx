@@ -4,11 +4,9 @@ import { StatusBar } from './components/StatusBar';
 import { GlassCard } from './components/GlassCard';
 import { DotMatrixCalendar } from './components/DotMatrixCalendar';
 import { BookingStep, BookingState } from './types';
-import { generateBookingSouvenir } from './services/geminiService';
-import { generateBookingConfirmation } from './services/emailService';
 import { saveBooking } from './services/bookingStore';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, ArrowRight, Minus, CreditCard, AlertTriangle, Download, RotateCcw, Instagram, Facebook } from 'lucide-react';
+import { Loader2, ArrowRight, Minus, CreditCard, AlertTriangle, RotateCcw, Instagram, Facebook } from 'lucide-react';
 
 // Zen-Tech / WKW Animation Constants - Slower, more languid
 const pageVariants = {
@@ -85,24 +83,10 @@ const App: React.FC = () => {
 
   const handleFinalize = async () => {
     if (!isLoading) setIsLoading(true);
-    setLoadingStatus("GENERATING ARTIFACT...");
+    setLoadingStatus("CONFIRMING BOOKING...");
     const bookingRef = `MC-${Date.now().toString(36).toUpperCase()}`;
 
     if (bookingData.dateRange.start) {
-        const effectiveEnd = bookingData.dateRange.end || bookingData.dateRange.start;
-        const effectiveRange = { start: bookingData.dateRange.start, end: effectiveEnd };
-        const imageUrl = await generateBookingSouvenir(bookingData.peopleCount, effectiveRange);
-        setLoadingStatus("COMPILING...");
-        const confirmationUrl = generateBookingConfirmation({
-            name: bookingData.name,
-            phone: bookingData.phone,
-            email: bookingData.email,
-            notes: bookingData.notes,
-            people: bookingData.peopleCount,
-            range: effectiveRange,
-            souvenirUrl: imageUrl,
-            bookingRef,
-        });
         const dateStr = bookingData.dateRange.start.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
         const timeStr = bookingData.dateRange.start.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
 
@@ -144,24 +128,29 @@ const App: React.FC = () => {
           console.warn('[SYS.D1] Booking save failed:', err);
         }
 
-        // Send email confirmation with cancelToken (fire-and-forget)
-        fetch('/api/send-confirmation', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: bookingData.name,
-            phone: bookingData.phone,
-            email: bookingData.email,
-            notes: bookingData.notes,
-            people: bookingData.peopleCount,
-            date: dateStr,
-            time: timeStr,
-            bookingRef,
-            cancelToken,
-          }),
-        }).catch((err) => console.warn('[SYS.MAIL] Email send failed:', err));
+        // Send confirmation email — await to ensure delivery
+        setLoadingStatus("SENDING CONFIRMATION...");
+        try {
+          await fetch('/api/send-confirmation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: bookingData.name,
+              phone: bookingData.phone,
+              email: bookingData.email,
+              notes: bookingData.notes,
+              people: bookingData.peopleCount,
+              date: dateStr,
+              time: timeStr,
+              bookingRef,
+              cancelToken,
+            }),
+          });
+        } catch (err) {
+          console.warn('[SYS.MAIL] Email send failed:', err);
+        }
 
-        setBookingData(prev => ({ ...prev, souvenirUrl: imageUrl, confirmationUrl, bookingRef }));
+        setBookingData(prev => ({ ...prev, bookingRef }));
     }
     setIsLoading(false);
     setStep(BookingStep.SUCCESS);
@@ -169,9 +158,6 @@ const App: React.FC = () => {
 
   const handleBookAnother = () => {
     hapticImpact();
-    if (bookingData.confirmationUrl) {
-      URL.revokeObjectURL(bookingData.confirmationUrl);
-    }
     setBookingData({
       peopleCount: 2,
       dateRange: { start: null, end: null },
@@ -181,17 +167,6 @@ const App: React.FC = () => {
       notes: '',
     });
     setStep(BookingStep.PEOPLE);
-  };
-
-  const handleDownloadConfirmation = () => {
-    if (!bookingData.confirmationUrl) return;
-    hapticImpact();
-    const a = document.createElement('a');
-    a.href = bookingData.confirmationUrl;
-    a.download = `MAMAO_CONFIRMATION_${bookingData.bookingRef || Date.now()}.html`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
   };
 
   return (
@@ -578,41 +553,14 @@ const App: React.FC = () => {
                      </div>
                    </div>
 
-                   {/* Souvenir Image (if Gemini was available) */}
-                   {bookingData.souvenirUrl ? (
-                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-                        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                        transition={{ delay: 0.2, duration: 1.5 }}
-                        className="w-full aspect-[9/16] max-h-[240px] relative rounded-sm overflow-hidden border border-white/10 shadow-2xl group mb-6"
-                     >
-                        <img
-                          src={bookingData.souvenirUrl}
-                          alt="Digital Souvenir"
-                          className="w-full h-full object-cover opacity-80 mix-blend-screen contrast-125 saturate-0 group-hover:saturate-50 transition-all duration-1000"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                        <div className="absolute bottom-3 right-3 text-[8px] font-mono text-white/60">
-                           NO. {bookingData.bookingRef}
-                        </div>
-                     </motion.div>
-                   ) : (
-                     <div className="w-full py-6 bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center mb-6">
-                        <div className="text-[9px] font-mono text-white/20 tracking-widest mb-1">SOUVENIR UNAVAILABLE</div>
-                        <div className="text-[8px] font-mono text-white/10 tracking-wider">ARTIFACT GENERATION OFFLINE</div>
-                     </div>
-                   )}
+                   {/* Email confirmation notice */}
+                   <div className="w-full py-4 bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center mb-6">
+                      <div className="text-[10px] font-mono text-white/40 tracking-widest">CONFIRMATION EMAIL SENT</div>
+                      <div className="text-[9px] font-mono text-white/20 tracking-wider mt-1">{bookingData.email}</div>
+                   </div>
 
                    {/* Action Buttons */}
                    <div className="w-full space-y-3 mt-auto">
-                     <button
-                       onClick={handleDownloadConfirmation}
-                       disabled={!bookingData.confirmationUrl}
-                       className="w-full py-3 bg-white/5 text-warm-white border border-white/20 hover:bg-white/10 hover:border-white/40 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] font-mono text-xs tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3"
-                     >
-                       <Download size={12} />
-                       <span>DOWNLOAD CONFIRMATION</span>
-                     </button>
                      <button
                        onClick={handleBookAnother}
                        className="w-full py-3 border border-white/10 hover:bg-white/5 text-white/40 hover:text-warm-white font-mono text-xs tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3"

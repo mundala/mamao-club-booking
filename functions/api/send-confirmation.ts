@@ -14,7 +14,7 @@ interface BookingPayload {
   cancelToken?: string;
 }
 
-const OWNER_EMAIL = 'Thidarat090340@gmail.com';
+const OWNER_EMAIL = 'Thidarat.mmc@gmail.com';
 
 function buildEmailHtml(booking: BookingPayload): string {
   const unitStr = booking.people < 10 ? `0${booking.people}` : `${booking.people}`;
