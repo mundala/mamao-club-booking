@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# agent scratch
+.claude/
+.omc/
+.omx/
+.remember/
+SESSION_STATE.md

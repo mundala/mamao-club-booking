@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zen Redesign Preview — Before / After</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Inter:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  body { background: #0a0a0a; color: #F0F0E8; font-family: 'Inter', sans-serif; }
+  .font-serif { font-family: 'Kaisei Decol', serif; }
+  .font-accent { font-family: 'Crimson Pro', serif; }
+
+  /* Current: aggressive red */
+  .current-red { color: #D71921; }
+  .current-bg { background: #030303; }
+  .current-glow { text-shadow: 0 0 12px rgba(215, 25, 33, 0.6), 0 0 25px rgba(215, 25, 33, 0.3); }
+  .current-bloom { text-shadow: 0 0 10px rgba(240, 240, 232, 0.4), 0 0 20px rgba(240, 240, 232, 0.2); }
+
+  /* Proposed: warm persimmon */
+  .zen-accent { color: #B5443E; }
+  .zen-bg { background: #1A1A18; }
+  .zen-accent-bg { background: #B5443E; }
+
+  .glass-current {
+    background: rgba(10, 10, 12, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 20px 60px -15px rgba(0,0,0,0.7);
+  }
+  .glass-zen {
+    background: rgba(16, 16, 14, 0.5);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.5);
+  }
+
+  .dot-matrix {
+    background-image: radial-gradient(#222 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .label-badge { font-size: 7px; letter-spacing: 0.15em; }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+  .breathe { animation: breathe 4s ease-in-out infinite; }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+</style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+<!-- HEADER -->
+<div class="max-w-6xl mx-auto mb-12 text-center">
+  <h1 class="text-3xl font-serif italic opacity-80 mb-2">Zen Redesign Preview</h1>
+  <p class="text-xs font-accent text-white/40 tracking-wider">Before (current) vs After (proposed) — no code changed</p>
+</div>
+
+<!-- ============================================ -->
+<!-- STEP 1: PEOPLE — COMPARISON -->
+<!-- ============================================ -->
+<div class="max-w-6xl mx-auto mb-20">
+  <div class="section-label font-accent text-white/30">Step 1 — Party Size</div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <!-- CURRENT -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Current</div>
+      <div class="glass-current rounded-sm p-8 current-bg relative">
+        <!-- Dot matrix overlay (current has this) -->
+        <div class="absolute inset-0 dot-matrix opacity-5 pointer-events-none rounded-sm"></div>
+
+        <!-- Neon progress bar -->
+        <div class="absolute top-0 left-0 w-1/4 h-[1px] bg-[#D71921]" style="box-shadow: 0 0 15px rgba(215,25,33,0.8)"></div>
+
+        <div class="relative z-10">
+          <div class="flex justify-between items-center mb-8">
+            <div class="text-[10px] font-accent current-red tracking-widest current-glow" style="letter-spacing:0.2em">01 // QUANTITY</div>
+          </div>
+
+          <h2 class="text-4xl font-serif italic mb-12 current-bloom opacity-90">
+            How many<br>tonight?
+          </h2>
+
+          <div class="grid grid-cols-4 gap-3">
+            <button class="aspect-square flex items-center justify-center text-lg font-accent border border-white/5 text-white/30 bg-transparent">
+              <span class="italic">01</span>
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent border border-white/40 text-white bg-white/10" style="box-shadow: 0 0 15px rgba(255,255,255,0.1)">
+              <span class="italic">02</span>
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent border border-white/5 text-white/30 bg-transparent">
+              <span class="italic">03</span>
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent border border-white/5 text-white/30 bg-transparent">
+              <span class="italic">04</span>
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent border border-white/5 text-white/30 bg-transparent">
+              <span class="italic">05</span>
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent border border-white/5 text-white/30 bg-transparent">
+              <span class="italic">06</span>
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent border border-white/5 text-white/30 bg-transparent">
+              <span class="italic">07</span>
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent border border-white/5 text-white/30 bg-transparent">
+              <span class="italic">08</span>
+            </button>
+          </div>
+
+          <!-- Status bar mockup -->
+          <div class="mt-8 flex justify-between text-[9px] font-accent text-white/25 tracking-widest uppercase">
+            <span class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 bg-[#D71921] rounded-full animate-pulse"></span>
+              SYS.2026.03.10
+            </span>
+            <span>ONLINE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPOSED ZEN -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Proposed</div>
+      <div class="glass-zen rounded-sm p-8 zen-bg relative">
+
+        <!-- Clean progress bar — no glow -->
+        <div class="absolute top-0 left-0 w-1/4 h-[1px] bg-[#B5443E] opacity-60"></div>
+
+        <div class="relative z-10">
+          <div class="flex justify-between items-center mb-10">
+            <div class="text-[11px] font-accent zen-accent tracking-wider italic opacity-70">01</div>
+          </div>
+
+          <h2 class="text-4xl font-serif italic mb-14 opacity-90" style="text-shadow: 0 0 30px rgba(240,240,232,0.15)">
+            How many<br>tonight?
+          </h2>
+
+          <div class="grid grid-cols-4 gap-4">
+            <button class="aspect-square flex items-center justify-center text-lg font-accent italic border border-white/5 text-white/25 bg-transparent rounded-sm">
+              1
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent italic border border-[#B5443E]/40 text-[#F0F0E8] bg-[#B5443E]/10 rounded-sm">
+              2
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent italic border border-white/5 text-white/25 bg-transparent rounded-sm">
+              3
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent italic border border-white/5 text-white/25 bg-transparent rounded-sm">
+              4
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent italic border border-white/5 text-white/25 bg-transparent rounded-sm">
+              5
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent italic border border-white/5 text-white/25 bg-transparent rounded-sm">
+              6
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent italic border border-white/5 text-white/25 bg-transparent rounded-sm">
+              7
+            </button>
+            <button class="aspect-square flex items-center justify-center text-lg font-accent italic border border-white/5 text-white/25 bg-transparent rounded-sm">
+              8
+            </button>
+          </div>
+
+          <!-- Clean date — no SYS prefix, no ONLINE -->
+          <div class="mt-10 text-center">
+            <span class="text-[10px] font-accent text-white/20 tracking-wider italic">10 March 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- STEP 3: CONFIRMATION — COMPARISON -->
+<!-- ============================================ -->
+<div class="max-w-6xl mx-auto mb-20">
+  <div class="section-label font-accent text-white/30">Step 3 — Confirmation Details</div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <!-- CURRENT -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Current</div>
+      <div class="glass-current rounded-sm p-8 current-bg relative">
+        <div class="absolute inset-0 dot-matrix opacity-5 pointer-events-none rounded-sm"></div>
+        <div class="absolute top-0 left-0 w-3/4 h-[1px] bg-[#D71921]" style="box-shadow: 0 0 15px rgba(215,25,33,0.8)"></div>
+
+        <div class="relative z-10">
+          <div class="text-[10px] font-accent current-red mb-8 current-glow" style="letter-spacing:0.2em">03 // VERIFICATION</div>
+          <h2 class="text-4xl font-serif italic mb-8 current-bloom opacity-90">Confirm<br>details.</h2>
+
+          <div class="space-y-6 border-l border-white/10 pl-8 py-2 relative">
+            <!-- Neon line -->
+            <div class="absolute left-[-1px] top-0 bottom-0 w-[1px] bg-[#D71921] opacity-60" style="box-shadow: 0 0 10px rgba(215,25,33,0.5)"></div>
+
+            <div>
+              <div class="text-[9px] font-accent uppercase text-white/30 mb-1" style="letter-spacing:0.15em">Guests</div>
+              <div class="text-xl font-serif italic flex items-baseline gap-2">
+                <span>02</span>
+                <span class="text-xs font-accent text-white/30 not-italic" style="letter-spacing:0.1em">SOULS</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="text-[9px] font-accent uppercase text-white/30 mb-1" style="letter-spacing:0.15em">Time</div>
+              <div class="text-xl font-serif italic flex items-center gap-3">
+                <div class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D71921] opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-[#D71921]" style="box-shadow: 0 0 8px #D71921"></span>
+                </div>
+                <span class="text-2xl tracking-wide">21:30</span>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/5 space-y-4">
+              <div class="text-[9px] font-accent uppercase text-white/30 mb-2" style="letter-spacing:0.15em">Contact</div>
+              <div class="border-b border-white/20 py-2">
+                <span class="text-lg font-accent text-white/10 italic" style="letter-spacing:0.1em">FULL_NAME</span>
+              </div>
+              <div class="border-b border-white/20 py-2">
+                <span class="text-lg font-accent text-white/10 italic" style="letter-spacing:0.1em">PHONE_NUMBER</span>
+              </div>
+              <div class="border-b border-white/20 py-2">
+                <span class="text-lg font-accent text-white/10 italic" style="letter-spacing:0.1em">EMAIL_ADDRESS</span>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/5">
+              <div class="text-[9px] font-accent uppercase text-white/30 mb-3" style="letter-spacing:0.15em">Special Occasion / Requests</div>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1.5 text-[10px] font-accent tracking-wider border border-white/30 bg-white/10 text-white uppercase">BIRTHDAY</span>
+                <span class="px-3 py-1.5 text-[10px] font-accent tracking-wider border border-white/8 text-white/25 uppercase">ANNIVERSARY</span>
+                <span class="px-3 py-1.5 text-[10px] font-accent tracking-wider border border-white/8 text-white/25 uppercase">DATE NIGHT</span>
+                <span class="px-3 py-1.5 text-[10px] font-accent tracking-wider border border-white/8 text-white/25 uppercase">VIP TABLE</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="w-full py-4 font-accent text-xs uppercase tracking-widest mt-6 border border-white/20 bg-white/5 text-white flex items-center justify-center gap-3" style="letter-spacing:0.2em">
+            READY TO MAMAO
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPOSED ZEN -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Proposed</div>
+      <div class="glass-zen rounded-sm p-8 zen-bg relative">
+        <div class="absolute top-0 left-0 w-3/4 h-[1px] bg-[#B5443E] opacity-50"></div>
+
+        <div class="relative z-10">
+          <div class="text-[11px] font-accent zen-accent tracking-wider italic opacity-70 mb-10">03</div>
+          <h2 class="text-4xl font-serif italic mb-10 opacity-90" style="text-shadow: 0 0 30px rgba(240,240,232,0.15)">Your<br>evening.</h2>
+
+          <div class="space-y-8 pl-6 py-2 relative border-l border-white/8">
+            <!-- Subtle warm line, no glow -->
+            <div class="absolute left-[-1px] top-0 bottom-0 w-[1px] bg-[#B5443E] opacity-30"></div>
+
+            <div>
+              <div class="text-[10px] font-accent text-white/30 mb-1.5 tracking-wider">Guests</div>
+              <div class="text-xl font-serif italic">2</div>
+            </div>
+
+            <div>
+              <div class="text-[10px] font-accent text-white/30 mb-1.5 tracking-wider">Time</div>
+              <div class="text-xl font-serif italic flex items-center gap-3">
+                <span class="w-1.5 h-1.5 bg-[#B5443E] rounded-full breathe"></span>
+                <span class="text-2xl">21:30</span>
+              </div>
+            </div>
+
+            <div class="pt-6 border-t border-white/5 space-y-5">
+              <div class="text-[10px] font-accent text-white/30 mb-2 tracking-wider">Contact</div>
+              <div class="border-b border-white/15 py-2.5">
+                <span class="text-base font-accent text-white/15 italic">Your name</span>
+              </div>
+              <div class="border-b border-white/15 py-2.5">
+                <span class="text-base font-accent text-white/15 italic">Phone</span>
+              </div>
+              <div class="border-b border-white/15 py-2.5">
+                <span class="text-base font-accent text-white/15 italic">Email</span>
+              </div>
+            </div>
+
+            <div class="pt-6 border-t border-white/5">
+              <div class="text-[10px] font-accent text-white/30 mb-3 tracking-wider">Special occasion</div>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1.5 text-[10px] font-accent tracking-wider border border-[#B5443E]/30 bg-[#B5443E]/8 text-[#F0F0E8]/80 rounded-sm">Birthday</span>
+                <span class="px-3 py-1.5 text-[10px] font-accent tracking-wider border border-white/6 text-white/25 rounded-sm">Anniversary</span>
+                <span class="px-3 py-1.5 text-[10px] font-accent tracking-wider border border-white/6 text-white/25 rounded-sm">Date Night</span>
+                <span class="px-3 py-1.5 text-[10px] font-accent tracking-wider border border-white/6 text-white/25 rounded-sm">VIP Table</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="w-full py-4 font-accent text-sm tracking-wider mt-8 border border-white/15 bg-white/[0.03] text-[#F0F0E8]/70 flex items-center justify-center gap-3 rounded-sm hover:bg-white/[0.06] transition-all">
+            <span class="italic">Continue</span>
+            <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- CONFIRMATION DIALOG — COMPARISON -->
+<!-- ============================================ -->
+<div class="max-w-6xl mx-auto mb-20">
+  <div class="section-label font-accent text-white/30">Confirmation Dialog</div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <!-- CURRENT -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Current</div>
+      <div class="bg-black/80 rounded-sm p-6">
+        <div class="glass-current rounded-sm p-6 border border-[#D71921]/30" style="box-shadow: 0 0 30px rgba(215,25,33,0.15)">
+          <div class="flex flex-col items-center text-center">
+            <!-- Alert triangle -->
+            <div class="w-12 h-12 rounded-full border border-[#D71921] flex items-center justify-center mb-4 text-[#D71921]">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+            <h3 class="text-2xl font-serif italic current-bloom mb-2">Finalize Protocol?</h3>
+            <p class="text-[10px] font-accent text-white/50 mb-6 uppercase" style="letter-spacing:0.15em">Action is irreversible</p>
+
+            <div class="w-full space-y-3 mb-6 text-left border-t border-b border-white/10 py-4">
+              <div class="flex justify-between text-xs font-accent"><span class="text-white/40">NAME</span><span>Jean</span></div>
+              <div class="flex justify-between text-xs font-accent"><span class="text-white/40">DATE</span><span>Sat, Mar 14</span></div>
+              <div class="flex justify-between text-xs font-accent"><span class="text-white/40">TIME</span><span>21:30</span></div>
+              <div class="flex justify-between text-xs font-accent"><span class="text-white/40">GUESTS</span><span>02 SOULS</span></div>
+            </div>
+
+            <div class="flex gap-3 w-full">
+              <button class="flex-1 py-3 border border-white/10 text-white/60 text-[10px] font-accent uppercase" style="letter-spacing:0.15em">ABORT</button>
+              <button class="flex-1 py-3 bg-[#D71921] text-[#030303] text-[10px] font-accent uppercase font-bold" style="letter-spacing:0.15em; box-shadow: 0 0 15px rgba(215,25,33,0.4)">EXECUTE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPOSED ZEN -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Proposed</div>
+      <div class="bg-black/60 rounded-sm p-6" style="backdrop-filter: blur(4px)">
+        <div class="glass-zen rounded-sm p-8 border border-white/8">
+          <div class="flex flex-col items-center text-center">
+            <!-- Gentle circle, no warning icon -->
+            <div class="w-10 h-10 rounded-full border border-[#B5443E]/30 flex items-center justify-center mb-5">
+              <div class="w-2 h-2 bg-[#B5443E] rounded-full breathe"></div>
+            </div>
+            <h3 class="text-2xl font-serif italic mb-2 opacity-90" style="text-shadow: 0 0 20px rgba(240,240,232,0.1)">Confirm your booking</h3>
+            <p class="text-[11px] font-accent text-white/35 mb-8 tracking-wider italic">Please review your details</p>
+
+            <div class="w-full space-y-3 mb-8 text-left border-t border-white/6 pt-5">
+              <div class="flex justify-between text-xs font-accent"><span class="text-white/35 italic">Name</span><span class="text-white/80">Jean</span></div>
+              <div class="flex justify-between text-xs font-accent"><span class="text-white/35 italic">Date</span><span class="text-white/80">Saturday, 14 March</span></div>
+              <div class="flex justify-between text-xs font-accent"><span class="text-white/35 italic">Time</span><span class="text-white/80">21:30</span></div>
+              <div class="flex justify-between text-xs font-accent"><span class="text-white/35 italic">Guests</span><span class="text-white/80">2</span></div>
+            </div>
+
+            <div class="flex gap-3 w-full">
+              <button class="flex-1 py-3 border border-white/8 text-white/40 text-[11px] font-accent tracking-wider rounded-sm italic">Back</button>
+              <button class="flex-1 py-3 bg-[#B5443E] text-[#F0F0E8] text-[11px] font-accent tracking-wider font-medium rounded-sm">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- STEP 4: SUCCESS — COMPARISON -->
+<!-- ============================================ -->
+<div class="max-w-6xl mx-auto mb-20">
+  <div class="section-label font-accent text-white/30">Step 4 — Success / Completion</div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <!-- CURRENT -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Current</div>
+      <div class="glass-current rounded-sm p-8 current-bg relative">
+        <div class="absolute inset-0 dot-matrix opacity-5 pointer-events-none rounded-sm"></div>
+        <div class="absolute top-0 left-0 w-full h-[1px] bg-[#D71921]" style="box-shadow: 0 0 15px rgba(215,25,33,0.8)"></div>
+
+        <div class="relative z-10 flex flex-col items-center text-center">
+          <div class="w-14 h-14 rounded-full border border-[#D71921]/30 flex items-center justify-center mb-5" style="box-shadow: 0 0 20px rgba(215,25,33,0.2)">
+            <div class="w-2 h-2 bg-[#D71921] rounded-full animate-pulse" style="box-shadow: 0 0 10px #D71921"></div>
+          </div>
+
+          <h2 class="text-3xl font-serif italic mb-1 current-bloom">Booking Confirmed.</h2>
+          <p class="text-[10px] font-accent current-red mb-6 current-glow" style="letter-spacing:0.15em">REF: MC-N4KF8X2</p>
+
+          <div class="w-full space-y-2 mb-6 text-left border border-white/10 p-4">
+            <div class="flex justify-between text-xs font-accent"><span class="text-white/40">NAME</span><span>Jean</span></div>
+            <div class="flex justify-between text-xs font-accent"><span class="text-white/40">GUESTS</span><span>02 SOULS</span></div>
+            <div class="flex justify-between text-xs font-accent"><span class="text-white/40">DATE</span><span>Sat, Mar 14</span></div>
+            <div class="flex justify-between text-xs font-accent"><span class="text-white/40">TIME</span><span>21:30</span></div>
+          </div>
+
+          <div class="w-full py-4 bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center mb-6">
+            <div class="text-[10px] font-accent text-white/40" style="letter-spacing:0.15em">CONFIRMATION EMAIL SENT</div>
+            <div class="text-[9px] font-accent text-white/20 mt-1" style="letter-spacing:0.1em">jean@example.com</div>
+          </div>
+
+          <button class="w-full py-3 border border-white/10 text-white/40 font-accent text-xs flex items-center justify-center gap-3 uppercase" style="letter-spacing:0.2em">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
+            BOOK ANOTHER
+          </button>
+
+          <div class="flex items-center gap-4 mt-6">
+            <span class="text-[9px] font-accent text-white/30" style="letter-spacing:0.15em">FOLLOW</span>
+            <div class="w-10 h-10 border border-white/15 flex items-center justify-center text-white/40">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </div>
+            <div class="w-10 h-10 border border-white/15 flex items-center justify-center text-white/40">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPOSED ZEN -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Proposed</div>
+      <div class="glass-zen rounded-sm p-8 zen-bg relative">
+        <div class="absolute top-0 left-0 w-full h-[1px] bg-[#B5443E] opacity-40"></div>
+
+        <div class="relative z-10 flex flex-col items-center text-center">
+          <!-- Quiet, warm confirmation mark -->
+          <div class="w-12 h-12 rounded-full border border-[#B5443E]/20 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-[#B5443E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"/></svg>
+          </div>
+
+          <h2 class="text-3xl font-serif italic mb-2 opacity-90" style="text-shadow: 0 0 20px rgba(240,240,232,0.1)">See you there.</h2>
+          <p class="text-[11px] font-accent text-white/30 mb-8 tracking-wider italic">Booking confirmed</p>
+
+          <div class="w-full space-y-3 mb-8 text-left py-5 border-t border-white/6">
+            <div class="flex justify-between text-[13px] font-accent"><span class="text-white/30 italic">Name</span><span class="text-white/70">Jean</span></div>
+            <div class="flex justify-between text-[13px] font-accent"><span class="text-white/30 italic">Guests</span><span class="text-white/70">2</span></div>
+            <div class="flex justify-between text-[13px] font-accent"><span class="text-white/30 italic">Date</span><span class="text-white/70">Saturday, 14 March</span></div>
+            <div class="flex justify-between text-[13px] font-accent"><span class="text-white/30 italic">Time</span><span class="text-white/70">21:30</span></div>
+          </div>
+
+          <!-- Gentle email notice -->
+          <div class="w-full py-4 border-t border-white/5 flex flex-col items-center justify-center mb-8">
+            <div class="text-[11px] font-accent text-white/30 tracking-wider italic">Confirmation sent to</div>
+            <div class="text-[12px] font-accent text-white/50 mt-1">jean@example.com</div>
+          </div>
+
+          <button class="w-full py-3.5 border border-white/8 text-white/35 font-accent text-[12px] flex items-center justify-center gap-2 rounded-sm italic tracking-wider hover:text-white/60 hover:border-white/15 transition-all">
+            Make another booking
+          </button>
+
+          <!-- Social — quieter, integrated -->
+          <div class="flex items-center gap-5 mt-8">
+            <a href="#" class="text-white/20 hover:text-[#B5443E] transition-colors">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="text-white/20 hover:text-[#B5443E] transition-colors">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- COLOR COMPARISON -->
+<!-- ============================================ -->
+<div class="max-w-6xl mx-auto mb-20">
+  <div class="section-label font-accent text-white/30">Color Palette</div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <!-- CURRENT PALETTE -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Current</div>
+      <div class="flex gap-3">
+        <div class="flex-1 text-center">
+          <div class="h-20 rounded-sm mb-2" style="background:#030303; border: 1px solid rgba(255,255,255,0.1)"></div>
+          <div class="text-[9px] font-accent text-white/40">#030303</div>
+          <div class="text-[8px] font-accent text-white/20">off-black</div>
+        </div>
+        <div class="flex-1 text-center">
+          <div class="h-20 rounded-sm mb-2" style="background:#F0F0E8"></div>
+          <div class="text-[9px] font-accent text-white/40">#F0F0E8</div>
+          <div class="text-[8px] font-accent text-white/20">warm-white</div>
+        </div>
+        <div class="flex-1 text-center">
+          <div class="h-20 rounded-sm mb-2" style="background:#D71921"></div>
+          <div class="text-[9px] font-accent text-white/40">#D71921</div>
+          <div class="text-[8px] font-accent text-white/20">nothing-red</div>
+        </div>
+      </div>
+      <div class="mt-4 text-center text-[10px] font-accent text-white/20 italic">Void black + fire-engine red = alarm, not invitation</div>
+    </div>
+
+    <!-- PROPOSED PALETTE -->
+    <div>
+      <div class="text-[9px] font-accent text-white/30 tracking-widest uppercase mb-4 text-center">Proposed</div>
+      <div class="flex gap-3">
+        <div class="flex-1 text-center">
+          <div class="h-20 rounded-sm mb-2" style="background:#1A1A18; border: 1px solid rgba(255,255,255,0.1)"></div>
+          <div class="text-[9px] font-accent text-white/40">#1A1A18</div>
+          <div class="text-[8px] font-accent text-white/20">sumi (ink)</div>
+        </div>
+        <div class="flex-1 text-center">
+          <div class="h-20 rounded-sm mb-2" style="background:#F0F0E8"></div>
+          <div class="text-[9px] font-accent text-white/40">#F0F0E8</div>
+          <div class="text-[8px] font-accent text-white/20">kinari (silk)</div>
+        </div>
+        <div class="flex-1 text-center">
+          <div class="h-20 rounded-sm mb-2" style="background:#B5443E"></div>
+          <div class="text-[9px] font-accent text-white/40">#B5443E</div>
+          <div class="text-[8px] font-accent text-white/20">kaki (persimmon)</div>
+        </div>
+      </div>
+      <div class="mt-4 text-center text-[10px] font-accent text-white/20 italic">Warm ink + aged persimmon = invitation, warmth</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- CHANGE SUMMARY -->
+<!-- ============================================ -->
+<div class="max-w-3xl mx-auto mb-20 glass-zen rounded-sm p-8 zen-bg">
+  <h2 class="text-xl font-serif italic mb-6 text-center opacity-80">Summary of Changes</h2>
+
+  <div class="space-y-4 text-[13px] font-accent text-white/50 leading-relaxed">
+    <div class="flex gap-3">
+      <span class="zen-accent font-serif italic text-base">1.</span>
+      <span><strong class="text-white/70">Language</strong> — All terminal jargon replaced with human words. SCREAMING_CAPS become sentence case. Machine commands become gentle invitations.</span>
+    </div>
+    <div class="flex gap-3">
+      <span class="zen-accent font-serif italic text-base">2.</span>
+      <span><strong class="text-white/70">Accent color</strong> — #D71921 (fire-engine red) shifts to #B5443E (aged persimmon). Still warm, still magnetic, no longer alarming.</span>
+    </div>
+    <div class="flex gap-3">
+      <span class="zen-accent font-serif italic text-base">3.</span>
+      <span><strong class="text-white/70">Background</strong> — #030303 (void) warms to #1A1A18 (ink). Dot-matrix, film grain, and scanner line removed. Crowd photo + overlay + vignette remain.</span>
+    </div>
+    <div class="flex gap-3">
+      <span class="zen-accent font-serif italic text-base">4.</span>
+      <span><strong class="text-white/70">Effects</strong> — Neon glows, pulse wires, tech brackets, sonar ripples, and interference pulses all removed. Replaced with subtle opacity transitions and gentle breathing indicators.</span>
+    </div>
+    <div class="flex gap-3">
+      <span class="zen-accent font-serif italic text-base">5.</span>
+      <span><strong class="text-white/70">Dialog</strong> — AlertTriangle becomes a checkmark. "Finalize Protocol?" becomes "Confirm your booking". ABORT/EXECUTE becomes Back/Confirm.</span>
+    </div>
+    <div class="flex gap-3">
+      <span class="zen-accent font-serif italic text-base">6.</span>
+      <span><strong class="text-white/70">Numbers</strong> — Zero-padded "02 SOULS" becomes just "2". The customer chose a number, not a register value.</span>
+    </div>
+    <div class="flex gap-3">
+      <span class="zen-accent font-serif italic text-base">7.</span>
+      <span><strong class="text-white/70">Success</strong> — "Booking Confirmed." becomes "See you there." — warm, personal, memorable. The Rei (bow).</span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="max-w-3xl mx-auto text-center pb-12">
+  <p class="text-[10px] font-accent text-white/15 tracking-wider italic">This is a static preview. No source code has been modified.</p>
+</div>
+
+</body>
+</html>

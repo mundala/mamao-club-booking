@@ -10,15 +10,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #030303;
-      --surface: #0a0a0c;
-      --border: rgba(255,255,255,0.08);
-      --text: #F0F0E8;
-      --text-dim: rgba(255,255,255,0.4);
-      --text-muted: rgba(255,255,255,0.2);
+      --bg: #FFFFFF;
+      --surface: #F5F5F3;
+      --border: rgba(0,0,0,0.1);
+      --text: #1a1a1a;
+      --text-dim: rgba(0,0,0,0.5);
+      --text-muted: rgba(0,0,0,0.25);
       --red: #D71921;
-      --red-glow: rgba(215,25,33,0.4);
-      --glass: rgba(10,10,12,0.6);
+      --red-glow: rgba(215,25,33,0.3);
+      --glass: rgba(255,255,255,0.7);
     }
 
     body {
@@ -34,7 +34,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(#222 1px, transparent 1px);
+      background-image: radial-gradient(#ccc 1px, transparent 1px);
       background-size: 24px 24px;
       opacity: 0.08;
       pointer-events: none;
@@ -75,7 +75,7 @@
       font-style: italic;
       letter-spacing: -0.5px;
       margin-bottom: 4px;
-      text-shadow: 0 0 10px rgba(240,240,232,0.4);
+      text-shadow: none;
     }
 
     .login-card .subtitle {
@@ -115,7 +115,7 @@
       width: 100%;
       margin-top: 24px;
       padding: 14px;
-      background: rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.05);
       border: 1px solid var(--border);
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
@@ -126,9 +126,9 @@
     }
 
     .login-btn:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.3);
-      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.1);
+      border-color: rgba(0,0,0,0.3);
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
 
     .login-error {
@@ -158,7 +158,7 @@
       font-size: 28px;
       font-weight: 300;
       font-style: italic;
-      text-shadow: 0 0 10px rgba(240,240,232,0.4);
+      text-shadow: none;
     }
 
     .admin-header .sys-tag {
@@ -190,7 +190,7 @@
 
     .btn-ghost:hover {
       color: var(--text);
-      border-color: rgba(255,255,255,0.3);
+      border-color: rgba(0,0,0,0.3);
     }
 
     .btn-ghost.danger:hover {
@@ -259,12 +259,12 @@
     .date-input-wrap {
       overflow: hidden;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
+      background: rgba(0,0,0,0.04);
       transition: border-color 0.2s;
     }
 
     .date-input-wrap:focus-within {
-      border-color: rgba(255,255,255,0.3);
+      border-color: rgba(0,0,0,0.3);
     }
 
     .date-selector input[type="date"] {
@@ -287,7 +287,7 @@
     }
 
     .date-nav {
-      background: rgba(255,255,255,0.04);
+      background: rgba(0,0,0,0.04);
       border: 1px solid var(--border);
       color: var(--text-dim);
       font-size: 16px;
@@ -305,13 +305,13 @@
 
     .date-nav:hover {
       color: var(--text);
-      border-color: rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.08);
+      border-color: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.08);
     }
 
     .date-today-btn,
     .date-all-btn {
-      background: rgba(255,255,255,0.04);
+      background: rgba(0,0,0,0.04);
       border: 1px solid var(--border);
       color: var(--text-dim);
       font-family: 'JetBrains Mono', monospace;
@@ -325,7 +325,7 @@
     .date-today-btn:hover,
     .date-all-btn:hover {
       color: var(--text);
-      border-color: rgba(255,255,255,0.25);
+      border-color: rgba(0,0,0,0.25);
     }
 
     .date-all-btn.active {
@@ -409,7 +409,7 @@
 
     .search-input {
       width: 100%;
-      background: rgba(255,255,255,0.03);
+      background: rgba(0,0,0,0.03);
       border: 1px solid var(--border);
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
@@ -421,7 +421,7 @@
     }
 
     .search-input:focus {
-      border-color: rgba(255,255,255,0.25);
+      border-color: rgba(0,0,0,0.25);
     }
 
     .search-input::placeholder {
@@ -449,7 +449,7 @@
 
     .filter-btn:hover {
       color: var(--text);
-      border-color: rgba(255,255,255,0.25);
+      border-color: rgba(0,0,0,0.25);
     }
 
     .filter-btn.active {
@@ -478,7 +478,7 @@
     }
 
     .booking-list::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.1);
       border-radius: 2px;
     }
 
@@ -513,7 +513,7 @@
     }
 
     .booking-card:hover {
-      border-color: rgba(255,255,255,0.15);
+      border-color: rgba(0,0,0,0.15);
     }
 
     .bc-top {
@@ -540,8 +540,8 @@
 
     .bc-status.confirmed {
       color: var(--text-dim);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.1);
     }
 
     .bc-status.cancelled {
@@ -608,7 +608,7 @@
       height: 780px;
       margin: 0 auto;
       user-select: none;
-      touch-action: none;
+      touch-action: pan-y;
     }
 
     /* Table Elements */
@@ -626,39 +626,39 @@
       width: 55px;
       height: 55px;
       border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(0,0,0,0.03);
     }
 
     .table-el.shape-round {
       width: 55px;
       height: 55px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(0,0,0,0.03);
     }
 
     .table-el.shape-round-sm {
       width: 45px;
       height: 45px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(0,0,0,0.03);
     }
 
     .table-el.shape-stage {
       width: 120px;
       height: 50px;
       border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(0,0,0,0.03);
     }
 
     .table-num {
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
       font-weight: 700;
-      color: rgba(255,255,255,0.4);
+      color: rgba(0,0,0,0.4);
       line-height: 1;
       pointer-events: none;
     }
@@ -668,7 +668,7 @@
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.3px;
-      color: rgba(255,255,255,0.5);
+      color: rgba(0,0,0,0.5);
       line-height: 1.1;
       margin-top: 3px;
       pointer-events: none;
@@ -680,11 +680,11 @@
 
     /* Table status: free */
     .table-el.status-free {
-      border-color: rgba(255,255,255,0.10);
+      border-color: rgba(0,0,0,0.10);
     }
 
     .table-el.status-free .table-num {
-      color: rgba(255,255,255,0.4);
+      color: rgba(0,0,0,0.4);
     }
 
     /* Table status: booked */
@@ -698,20 +698,20 @@
     }
 
     .table-el.status-booked .table-sub {
-      color: rgba(240,240,232,0.9);
-      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+      color: var(--red);
+      text-shadow: none;
     }
 
     /* Table drop target highlight */
     .table-el.drop-hover {
-      border-color: rgba(255,255,255,0.50);
-      box-shadow: 0 0 20px rgba(255,255,255,0.15);
+      border-color: rgba(0,0,0,0.50);
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
     }
 
     /* Table selected (clicked for detail) */
     .table-el.selected {
-      border-color: rgba(255,255,255,0.40);
-      box-shadow: 0 0 16px rgba(255,255,255,0.12);
+      border-color: rgba(0,0,0,0.40);
+      box-shadow: 0 0 16px rgba(0,0,0,0.12);
     }
 
     .table-el.selected .table-num {
@@ -721,6 +721,21 @@
     /* Cursor for drop targets in dashboard */
     .table-el.drop-target {
       cursor: pointer;
+    }
+
+    /* Touch drag ghost (iPad/mobile) */
+    .touch-drag-ghost {
+      position: fixed;
+      z-index: 9999;
+      background: var(--red);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      pointer-events: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      white-space: nowrap;
     }
 
     /* Landmark zones */
@@ -739,11 +754,11 @@
       font-weight: 500;
       letter-spacing: 0.4em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.12);
+      color: rgba(0,0,0,0.12);
     }
 
     .landmark-zone {
-      border: 1px dashed rgba(255,255,255,0.06);
+      border: 1px dashed rgba(0,0,0,0.06);
       border-radius: 4px;
     }
 
@@ -867,7 +882,7 @@
     }
 
     .edit-modal {
-      background: #0a0a0a;
+      background: #FFFFFF;
       border: 1px solid var(--border);
       padding: 28px;
       width: 420px;
@@ -901,7 +916,7 @@
     .edit-row select,
     .edit-row textarea {
       width: 100%;
-      background: rgba(255,255,255,0.04);
+      background: rgba(0,0,0,0.04);
       border: 1px solid var(--border);
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
@@ -915,7 +930,7 @@
     .edit-row input:focus,
     .edit-row select:focus,
     .edit-row textarea:focus {
-      border-color: rgba(255,255,255,0.3);
+      border-color: rgba(0,0,0,0.3);
     }
 
     .edit-row textarea {
@@ -971,7 +986,7 @@
 
     .btn-cancel-edit:hover {
       color: var(--text);
-      border-color: rgba(255,255,255,0.2);
+      border-color: rgba(0,0,0,0.2);
     }
 
     .btn-edit {
@@ -980,7 +995,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
       letter-spacing: 1.5px;
-      background: rgba(255,255,255,0.04);
+      background: rgba(0,0,0,0.04);
       border: 1px solid var(--border);
       cursor: pointer;
       transition: all 0.2s;
@@ -989,8 +1004,8 @@
     }
 
     .btn-edit:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.08);
+      border-color: rgba(0,0,0,0.2);
     }
 
     .bc-edit-btn {
@@ -1008,7 +1023,7 @@
 
     .bc-edit-btn:hover {
       color: var(--text);
-      border-color: rgba(255,255,255,0.3);
+      border-color: rgba(0,0,0,0.3);
     }
 
     .btn-add-booking {
@@ -1085,12 +1100,12 @@
       font-size: 12px;
       color: var(--text);
       padding: 12px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(0,0,0,0.03);
       white-space: nowrap;
     }
 
     tbody tr:hover {
-      background: rgba(255,255,255,0.02);
+      background: rgba(0,0,0,0.02);
     }
 
     tbody td.ref {
@@ -1109,17 +1124,17 @@
     }
 
     .customer-row:hover {
-      background: rgba(255,255,255,0.03);
+      background: rgba(0,0,0,0.03);
     }
 
     .customer-sub-row td {
       padding: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(0,0,0,0.03);
     }
 
     .sub-table-wrap {
       padding: 8px 16px 8px 40px;
-      background: rgba(255,255,255,0.01);
+      background: rgba(0,0,0,0.01);
     }
 
     .sub-table-wrap table {
@@ -1277,8 +1292,8 @@
       padding: 2px 5px;
       border-radius: 2px;
       color: var(--text);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.15);
       margin-left: 8px;
       vertical-align: middle;
       text-transform: uppercase;
@@ -1364,7 +1379,7 @@
 
     .traffic-month-nav button:hover {
       color: var(--text);
-      border-color: rgba(255,255,255,0.25);
+      border-color: rgba(0,0,0,0.25);
     }
 
     .traffic-month-label {
@@ -1403,7 +1418,7 @@
     }
 
     .traffic-gridline {
-      stroke: rgba(255,255,255,0.04);
+      stroke: rgba(0,0,0,0.04);
       stroke-width: 1;
     }
 
@@ -1551,7 +1566,7 @@
 
     .table-el.editor-dragging {
       z-index: 100;
-      box-shadow: 0 0 24px rgba(255,255,255,0.15);
+      box-shadow: 0 0 24px rgba(0,0,0,0.15);
     }
 
     /* Footer */
@@ -2179,6 +2194,66 @@
           });
           card.addEventListener('dragend', () => {
             card.classList.remove('dragging-card');
+          });
+
+          // Touch drag support (iPad/mobile)
+          let touchGhost = null;
+          let touchStartY = 0;
+          let touchStartX = 0;
+          let touchMoved = false;
+          let lastHovered = null;
+
+          card.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            touchMoved = false;
+          }, { passive: true });
+
+          card.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            const dx = Math.abs(touch.clientX - touchStartX);
+            const dy = Math.abs(touch.clientY - touchStartY);
+
+            // Only start drag if moved enough horizontally (not just scrolling)
+            if (!touchMoved && dx < 10 && dy < 10) return;
+
+            if (!touchMoved) {
+              touchMoved = true;
+              card.classList.add('dragging-card');
+              touchGhost = document.createElement('div');
+              touchGhost.className = 'touch-drag-ghost';
+              touchGhost.textContent = b.name + ' (' + b.guests + ')';
+              document.body.appendChild(touchGhost);
+            }
+
+            e.preventDefault();
+            touchGhost.style.left = (touch.clientX - 60) + 'px';
+            touchGhost.style.top = (touch.clientY - 20) + 'px';
+
+            // Highlight table under finger
+            const elUnder = document.elementFromPoint(touch.clientX, touch.clientY);
+            const tableEl = elUnder ? elUnder.closest('.table-el.drop-target') : null;
+
+            if (lastHovered && lastHovered !== tableEl) {
+              lastHovered.classList.remove('drop-hover');
+            }
+            if (tableEl) {
+              tableEl.classList.add('drop-hover');
+              lastHovered = tableEl;
+            }
+          }, { passive: false });
+
+          card.addEventListener('touchend', async (e) => {
+            if (!touchMoved) return;
+            card.classList.remove('dragging-card');
+            if (touchGhost) { touchGhost.remove(); touchGhost = null; }
+            if (lastHovered) {
+              lastHovered.classList.remove('drop-hover');
+              const tableId = lastHovered.dataset.id;
+              if (tableId) await assignBookingToTable(b.ref, tableId);
+              lastHovered = null;
+            }
           });
         }
 
@@ -3007,7 +3082,7 @@
         '<svg class="pie-svg" viewBox="0 0 140 140">' +
           // New customers arc (background)
           '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" ' +
-            'fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="' + strokeWidth + '"/>' +
+            'fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="' + strokeWidth + '"/>' +
           // Returning arc
           '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" ' +
             'fill="none" stroke="' + (returningCount > 0 ? '#D71921' : 'transparent') + '" ' +
@@ -3018,7 +3093,7 @@
             'style="transition: stroke-dasharray 0.6s ease;"/>' +
           // New customers arc
           '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" ' +
-            'fill="none" stroke="' + (newCount > 0 ? 'rgba(255,255,255,0.20)' : 'transparent') + '" ' +
+            'fill="none" stroke="' + (newCount > 0 ? 'rgba(0,0,0,0.20)' : 'transparent') + '" ' +
             'stroke-width="' + strokeWidth + '" ' +
             'stroke-dasharray="' + newArc + ' ' + (circumference - newArc) + '" ' +
             'stroke-dashoffset="' + (circumference * 0.25 - retArc) + '" ' +
@@ -3041,7 +3116,7 @@
           '</div>' +
         '</div>' +
         '<div class="legend-item">' +
-          '<span class="legend-swatch" style="background:rgba(255,255,255,0.20);"></span>' +
+          '<span class="legend-swatch" style="background:rgba(0,0,0,0.20);"></span>' +
           '<div>' +
             '<div class="legend-label">NEW</div>' +
             '<span class="legend-value">' + newCount + '</span>' +
@@ -3153,7 +3228,7 @@
       });
 
       // Baseline
-      svg += '<line x1="' + padding.left + '" y1="' + (padding.top + chartHeight) + '" x2="' + (svgWidth - padding.right) + '" y2="' + (padding.top + chartHeight) + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
+      svg += '<line x1="' + padding.left + '" y1="' + (padding.top + chartHeight) + '" x2="' + (svgWidth - padding.right) + '" y2="' + (padding.top + chartHeight) + '" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>';
 
       // Bars
       for (let i = 0; i < daysInMonth; i++) {
@@ -3167,7 +3242,7 @@
         // Bar color
         let fill, opacity;
         if (count === 0) {
-          fill = 'rgba(255,255,255,0.04)';
+          fill = 'rgba(0,0,0,0.04)';
           opacity = '1';
         } else if (isToday) {
           fill = '#D71921';
@@ -3181,7 +3256,7 @@
 
         // Empty day placeholder (thin line)
         if (count === 0) {
-          svg += '<rect x="' + x + '" y="' + (padding.top + chartHeight - 1) + '" width="' + barWidth + '" height="1" fill="rgba(255,255,255,0.04)" rx="0"/>';
+          svg += '<rect x="' + x + '" y="' + (padding.top + chartHeight - 1) + '" width="' + barWidth + '" height="1" fill="rgba(0,0,0,0.04)" rx="0"/>';
         }
 
         // Bar
