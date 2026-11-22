@@ -1,5 +1,9 @@
 # Mamao Club Booking
 
+> **Rebuilt as [Tablehold](https://github.com/mundala/tablehold).** This is the original app, kept as it
+> was. Tablehold is the reusable version: any small business can self-host it for free, and every problem
+> listed under Limitations below is fixed there, most with a test.
+
 ## What it is
 A table-reservation web app I built for a venue I ran. Guests pick a party size and an arrival time (21:00 to 23:00) and get a booking reference. The app attempts to save the booking to a Cloudflare D1 database and send a confirmation email with a cancellation link. Static admin pages let staff view bookings, customers and stats.
 
@@ -28,6 +32,9 @@ React 18, TypeScript, Vite 5, Tailwind CSS 4, Framer Motion. Cloudflare Pages Fu
 4. `public/admin.html` and `public/floorplan.html` call the endpoints under `functions/api/admin/`, guarded by an `X-Admin-Password` header.
 
 ## Limitations
+
+Each of these has a matching fix in Tablehold, listed in its [LESSONS.md](https://github.com/mundala/tablehold/blob/main/docs/LESSONS.md).
+
 - The guest screen shows success even if the save or the email request fails.
 - Booking and email endpoints are public (CORS `*`) and only check a few required fields. No availability check, no rate limiting. Email HTML does not escape guest input.
 - The saved date comes from `toISOString()` (UTC), so it can differ from the local date the guest picked.
@@ -41,4 +48,4 @@ React 18, TypeScript, Vite 5, Tailwind CSS 4, Framer Motion. Cloudflare Pages Fu
 I direct AI coding assistants (Claude Code, Codex, Gemini) and review the output. I am still learning Python and TypeScript, and some of the code above is more than I could have written alone.
 
 ## Status
-The venue has closed. Kept as a portfolio piece, not maintained.
+The venue has closed. Kept as a record of version one, not maintained. New work happens in [Tablehold](https://github.com/mundala/tablehold).
